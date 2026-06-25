@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief aan jezelf — Klas 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --amber: #F5A623;
+    --amber-light: #FEF3DC;
+    --amber-dark: #B36A00;
+    --blue: #1A3A6B;
+    --blue-mid: #2E6CB8;
+    --blue-light: #E8F1FB;
+    --green: #1E7A3C;
+    --green-light: #E6F6ED;
+    --purple: #6B3FA0;
+    --purple-light: #F0E9FA;
+    --coral: #D84C2F;
+    --coral-light: #FDEEE9;
+    --bg: #F7F5F0;
+    --card: #FFFFFF;
+    --text: #1A1A2E;
+    --muted: #6B6B80;
+    --border: rgba(0,0,0,0.08);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --nav-h: 64px;
+    --step-colors: #F5A623, #2E6CB8, #1E7A3C, #6B3FA0, #D84C2F;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .nav-logo .envelope-icon {
+    width: 32px; height: 24px;
+    background: var(--amber);
+    border-radius: 4px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .nav-logo .envelope-icon::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 11px solid #d88a18;
+    border-radius: 4px 4px 0 0;
+  }
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover,
+  .nav-links a.active {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+  }
+  .nav-links a.active {
+    background: var(--amber);
+    color: var(--blue);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    padding-top: var(--nav-h);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    display: none;
+    min-height: calc(100vh - var(--nav-h));
+    animation: fadeIn 0.3s ease;
+  }
+  section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── INTRO ── */
+  #intro {
+    background: linear-gradient(160deg, var(--blue) 0%, #0E2348 100%);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  #intro::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    background: var(--amber);
+    opacity: 0.06;
+    border-radius: 50%;
+  }
+  #intro::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 240px; height: 240px;
+    background: var(--amber);
+    opacity: 0.06;
+    border-radius: 50%;
+  }
+  .intro-envelope {
+    position: relative;
+    width: 100px; height: 74px;
+    margin: 0 auto 2rem;
+  }
+  .env-body {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 58px;
+    background: var(--amber);
+    border-radius: 6px;
+  }
+  .env-flap {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 32px solid #d88a18;
+    border-radius: 6px 6px 0 0;
+  }
+  .env-letter {
+    position: absolute;
+    top: -18px; left: 50%; transform: translateX(-50%);
+    width: 70px; height: 38px;
+    background: #fff;
+    border-radius: 4px 4px 0 0;
+    border: 2px solid rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Caveat', cursive;
+    font-size: 11px;
+    color: #999;
+    letter-spacing: 1px;
+    animation: letterFloat 3s ease-in-out infinite;
+  }
+  @keyframes letterFloat {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(-6px); }
+  }
+  .intro-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .intro-h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .intro-handwriting {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--amber);
+    display: block;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .intro-desc {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .intro-chips {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chip svg { width: 14px; height: 14px; fill: none; stroke: var(--amber); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .intro-btn {
+    background: var(--amber);
+    color: var(--blue);
+    border: none;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: -0.01em;
+  }
+  .intro-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,0.4); }
+  .intro-btn:active { transform: translateY(0); }
+  .intro-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 900px;
+    margin: 4rem auto 0;
+    text-align: left;
+  }
+  .intro-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+  }
+  .intro-card-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: rgba(245,166,35,0.15);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 0.75rem;
+  }
+  .intro-card-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--amber); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .intro-card h3 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+  .intro-card p { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+  /* ── STEP PAGES ── */
+  .step-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .step-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .step-meta { flex: 1; }
+  .step-meta .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .step-meta h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .step-intro {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .speech-bubble {
+    border-radius: 16px 16px 16px 4px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    font-family: 'Caveat', cursive;
+    font-size: 1.15rem;
+    line-height: 1.55;
+  }
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; left: 18px;
+    width: 0; height: 0;
+  }
+  .questions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 1.5rem 0;
+  }
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1rem;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .q-arrow {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .tip-box {
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .tip-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .tip-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 0.3rem; }
+  .tip-box p { font-size: 13px; line-height: 1.55; }
+  .step-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .btn-ghost {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--muted);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+  .btn-primary {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity 0.15s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+  .progress-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s, width 0.2s;
+  }
+  .dot.active { width: 20px; border-radius: 4px; }
+
+  /* ── STEP COLOR THEMES ── */
+  .theme-1 { --c: #F5A623; --cl: #FEF3DC; --cd: #B36A00; }
+  .theme-2 { --c: #2E6CB8; --cl: #E8F1FB; --cd: #1A3A6B; }
+  .theme-3 { --c: #1E7A3C; --cl: #E6F6ED; --cd: #0F4D24; }
+  .theme-4 { --c: #6B3FA0; --cl: #F0E9FA; --cd: #3D1F66; }
+  .theme-5 { --c: #D84C2F; --cl: #FDEEE9; --cd: #8A2910; }
+
+  .theme-1 .step-num, .theme-2 .step-num, .theme-3 .step-num,
+  .theme-4 .step-num, .theme-5 .step-num { background: var(--c); }
+  .theme-1 .step-meta .eyebrow, .theme-2 .step-meta .eyebrow,
+  .theme-3 .step-meta .eyebrow, .theme-4 .step-meta .eyebrow,
+  .theme-5 .step-meta .eyebrow { color: var(--c); }
+  .speech-bubble { background: var(--cl); color: var(--cd); }
+  .speech-bubble::after { border-top: 10px solid var(--cl); border-right: 12px solid transparent; }
+  .q-arrow { background: var(--cl); color: var(--cd); }
+  .tip-box { background: var(--cl); }
+  .tip-icon { background: var(--c); color: #fff; }
+  .tip-box h4 { color: var(--cd); }
+  .tip-box p { color: var(--cd); opacity: 0.85; }
+
+  /* ── OVERVIEW ── */
+  #overzicht {
+    padding: 3rem 2rem 4rem;
+    background: var(--bg);
+  }
+  .overview-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .overview-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .overview-header .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber-dark);
+    margin-bottom: 0.5rem;
+  }
+  .overview-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .overview-header .hand {
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    color: var(--amber);
+    display: block;
+    margin-top: 0.25rem;
+  }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 2.5rem;
+  }
+  .ov-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.25rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .ov-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .ov-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .ov-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    margin: 0 auto 0.75rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    color: #fff;
+  }
+  .ov-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 0.4rem; line-height: 1.3; }
+  .ov-card p { font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+  .ov-card.c1 .ov-num { background: #F5A623; }
+  .ov-card.c1::before { background: #F5A623; }
+  .ov-card.c2 .ov-num { background: #2E6CB8; }
+  .ov-card.c2::before { background: #2E6CB8; }
+  .ov-card.c3 .ov-num { background: #1E7A3C; }
+  .ov-card.c3::before { background: #1E7A3C; }
+  .ov-card.c4 .ov-num { background: #6B3FA0; }
+  .ov-card.c4::before { background: #6B3FA0; }
+  .ov-card.c5 .ov-num { background: #D84C2F; }
+  .ov-card.c5::before { background: #D84C2F; }
+
+  .ov-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .ov-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+  .ov-block h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ov-block h3 .dot-h { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .ov-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ov-list li {
+    font-size: 13px;
+    color: var(--muted);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .ov-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+  .ov-list li::before { color: var(--amber); }
+  .coach-banner {
+    background: var(--blue);
+    border-radius: var(--radius);
+    padding: 1.5rem 2rem;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: #fff;
+  }
+  .coach-icon {
+    width: 52px; height: 52px;
+    background: var(--amber);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+  }
+  .coach-banner h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .coach-banner p { font-size: 13px; color: rgba(255,255,255,0.72); line-height: 1.55; }
+  .meta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  .meta-pill {
+    background: rgba(0,0,0,0.04);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12.5px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meta-pill svg { width: 14px; height: 14px; fill: none; stroke: var(--amber-dark); stroke-width: 2; stroke-linecap: round; }
+
+  @media (max-width: 700px) {
+    .overview-grid { grid-template-columns: 1fr 1fr; }
+    .ov-bottom { grid-template-columns: 1fr; }
+    .questions-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .nav-links a { font-size: 11px; padding: 5px 8px; }
+    .step-header { flex-direction: column; gap: 0.75rem; }
+  }
+  @media (max-width: 480px) {
+    .overview-grid { grid-template-columns: 1fr; }
+    .coach-banner { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="envelope-icon"></div>
+    Brief aan jezelf
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" onclick="showSection('intro', this)" class="active">Intro</a></li>
+    <li><a href="#" onclick="showSection('stap1', this)">Stap 1</a></li>
+    <li><a href="#" onclick="showSection('stap2', this)">Stap 2</a></li>
+    <li><a href="#" onclick="showSection('stap3', this)">Stap 3</a></li>
+    <li><a href="#" onclick="showSection('stap4', this)">Stap 4</a></li>
+    <li><a href="#" onclick="showSection('stap5', this)">Stap 5</a></li>
+    <li><a href="#" onclick="showSection('overzicht', this)">Overzicht</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ══ INTRO ══ -->
+  <section id="intro" class="active">
+    <div style="max-width:720px; margin:0 auto; padding:5rem 2rem 4rem; text-align:center; color:#fff; position:relative; z-index:1;">
+      <div class="intro-envelope">
+        <div class="env-letter">voor jou</div>
+        <div class="env-flap"></div>
+        <div class="env-body"></div>
+      </div>
+      <p class="intro-eyebrow">Klas 2 — Startactiviteit</p>
+      <h1 class="intro-h1">Brief aan jezelf</h1>
+      <span class="intro-handwriting">Wat ga jij dit jaar waarmaken?</span>
+      <p class="intro-desc">
+        Vandaag schrijf jij een brief aan je toekomstige zelf. Je kijkt terug op jaar 1 en blikt vooruit op wat jij wil bereiken in jaar 2 — op school én als persoon.
+      </p>
+      <div class="intro-chips">
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          30–40 minuten
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Pen en papier
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Alle tweedeklassen
+        </span>
+      </div>
+      <button class="intro-btn" onclick="showSection('stap1', document.querySelectorAll('.nav-links a')[1])">
+        Start de opdracht →
+      </button>
+    </div>
+    <div class="intro-cards" style="position:relative; z-index:1;">
+      <div class="intro-card">
+        <div class="intro-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>Terugblikken</h3>
+        <p>Wat ging goed in jaar 1? Wat was lastig? Wees eerlijk tegenover jezelf.</p>
+      </div>
+      <div class="intro-card">
+        <div class="intro-card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </div>
+        <h3>Ambities stellen</h3>
+        <p>Wat wil jij bereiken dit jaar? In vakken én als persoon.</p>
+      </div>
+      <div class="intro-card">
+        <div class="intro-card-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Plan maken</h3>
+        <p>Hoe ga je dat doen? Concreet, haalbaar en van jou.</p>
+      </div>
+      <div class="intro-card">
+        <div class="intro-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <h3>Commitment</h3>
+        <p>Een belofte aan jezelf. Jij bent zelf verantwoordelijk voor je jaar.</p>
+      </div>
+    </div>
+    <div style="height:4rem;"></div>
+  </section>
+
+  <!-- ══ STAP 1 ══ -->
+  <section id="stap1" class="theme-1">
+    <div class="step-page">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-meta">
+          <p class="eyebrow">Stap 1 van 5</p>
+          <h2>Kijk terug op jaar 1</h2>
+        </div>
+      </div>
+      <p class="step-intro">
+        Voordat je vooruitkijkt, neem je even de tijd om eerlijk terug te blikken op je eerste jaar. Wat heb je meegemaakt? Waar ben je trots op? En wat mag er beter?
+      </p>
+      <div class="speech-bubble">
+        Begin je brief met: <em>"Beste [jouw naam],"</em> — schrijf alsof je praat met iemand die jou door en door kent. Dat ben jij zelf.
+      </div>
+      <p style="font-size:14px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.75rem;">Schrijfvragen om op gang te komen</p>
+      <div class="questions-grid">
+        <div class="q-card"><span class="q-arrow">→</span>Welk vak verraste jou positief in jaar 1?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Waar heb je je echt voor ingezet?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Wat had je anders willen aanpakken?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Wat heb je geleerd over jezelf als leerling?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Was er een moment waarop je trots op jezelf was?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Wat vond je het moeilijkste van jaar 1?</div>
+      </div>
+      <div class="step-nav">
+        <button class="btn-ghost" onclick="showSection('intro', document.querySelectorAll('.nav-links a')[0])">← Terug naar intro</button>
+        <div class="progress-dots">
+          <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <button class="btn-primary" onclick="showSection('stap2', document.querySelectorAll('.nav-links a')[2])">Stap 2 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ STAP 2 ══ -->
+  <section id="stap2" class="theme-2">
+    <div class="step-page">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-meta">
+          <p class="eyebrow">Stap 2 van 5</p>
+          <h2>Stel je doelen voor jaar 2</h2>
+        </div>
+      </div>
+      <p class="step-intro">
+        Nu kijk je vooruit. Wat wil jij dit jaar bereiken — op school én als persoon? Goede doelen zijn concreet. Niet "beter mijn best doen", maar "een 7 halen voor wiskunde" of "vaker om hulp vragen als ik het niet snap."
+      </p>
+      <div class="speech-bubble">
+        Schrijf minimaal één schooldoel (cijfers, vakken) én één persoonlijk doel (houding, gewoontes, wie jij wil zijn).
+      </div>
+      <p style="font-size:14px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.75rem;">Inspiratievragen</p>
+      <div class="questions-grid">
+        <div class="q-card"><span class="q-arrow">→</span>Welk cijfer wil jij halen voor je moeilijkste vak?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Is er een vak waar je dit jaar wil doorgroeien?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Hoe wil jij groeien als persoon dit jaar?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Welke gewoonte wil jij dit jaar aanleren?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Wat wil je aan het eind van jaar 2 kunnen zeggen?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Wat zou je ouders of coach trots maken?</div>
+      </div>
+      <div class="step-nav">
+        <button class="btn-ghost" onclick="showSection('stap1', document.querySelectorAll('.nav-links a')[1])">← Stap 1</button>
+        <div class="progress-dots">
+          <div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <button class="btn-primary" onclick="showSection('stap3', document.querySelectorAll('.nav-links a')[3])">Stap 3 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ STAP 3 ══ -->
+  <section id="stap3" class="theme-3">
+    <div class="step-page">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-meta">
+          <p class="eyebrow">Stap 3 van 5</p>
+          <h2>Maak een plan van aanpak</h2>
+        </div>
+      </div>
+      <p class="step-intro">
+        Een doel zonder plan blijft een wens. Schrijf in je brief hoe jij jouw doelen gaat bereiken. Denk aan kleine stappen, aanpakken die bij jou passen en wat je doet als het tegenzit.
+      </p>
+      <div class="speech-bubble">
+        Goede vragen om te beantwoorden: Wat ga ik anders doen dan vorig jaar? Wie of wat helpt me daarbij? Wat doe ik als het moeilijk wordt?
+      </div>
+      <p style="font-size:14px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.75rem;">Denkvragen voor het plan</p>
+      <div class="questions-grid">
+        <div class="q-card"><span class="q-arrow">→</span>Wat ga je concreet anders doen dan vorig jaar?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Hoe plan jij je huiswerk of leerwerk?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Wie vraag jij om hulp als je ergens niet uitkomt?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Welke afleidingen wil je aanpakken?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Wat doe je als je een tegenslag hebt?</div>
+        <div class="q-card"><span class="q-arrow">→</span>Hoe houd jij jezelf gemotiveerd?</div>
+      </div>
+      <div class="step-nav">
+        <button class="btn-ghost" onclick="showSection('stap2', document.querySelectorAll('.nav-links a')[2])">← Stap 2</button>
+        <div class="progress-dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <button class="btn-primary" onclick="showSection('stap4', document.querySelectorAll('.nav-links a')[4])">Stap 4 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ STAP 4 ══ -->
+  <section id="stap4" class="theme-4">
+    <div class="step-page">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div class="step-meta">
+          <p class="eyebrow">Stap 4 van 5</p>
+          <h2>Schrijf je commitment</h2>
+        </div>
+      </div>
+      <p class="step-intro">
+        Dit is het krachtigste deel van de brief. Schrijf een belofte aan jezelf. Geen mooie woorden voor de docent — maar een echte, persoonlijke uitspraak over wat jij gaat inzetten dit jaar.
+      </p>
+      <div class="speech-bubble">
+        Begin met: <em>"Ik beloof mezelf dat ik dit jaar..."</em> — en maak het zo specifiek en eerlijk mogelijk. Dit is jouw contract met jezelf.
+      </div>
+      <p style="font-size:14px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.75rem;">Wat maakt een commitment sterk?</p>
+      <div class="questions-grid">
+        <div class="q-card"><span class="q-arrow">→</span>Het is jouw eigen woorden — niet wat anderen verwachten.</div>
+        <div class="q-card"><span class="q-arrow">→</span>Het is concreet: je kunt achteraf meten of je het gedaan hebt.</div>
+        <div class="q-card"><span class="q-arrow">→</span>Het gaat over gedrag, niet alleen over een uitkomst.</div>
+        <div class="q-card"><span class="q-arrow">→</span>Het voelt een beetje spannend — dat is goed!</div>
+      </div>
+      <div class="step-nav">
+        <button class="btn-ghost" onclick="showSection('stap3', document.querySelectorAll('.nav-links a')[3])">← Stap 3</button>
+        <div class="progress-dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div>
+        </div>
+        <button class="btn-primary" onclick="showSection('stap5', document.querySelectorAll('.nav-links a')[5])">Stap 5 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ STAP 5 ══ -->
+  <section id="stap5" class="theme-5">
+    <div class="step-page">
+      <div class="step-header">
+        <div class="step-num">5</div>
+        <div class="step-meta">
+          <p class="eyebrow">Stap 5 van 5</p>
+          <h2>Sluit de brief af</h2>
+        </div>
+      </div>
+      <p class="step-intro">
+        Je brief is bijna klaar. Sluit hem af met een groet aan je toekomstige zelf — de versie van jou die deze brief over een paar maanden terugLeest. Maak het persoonlijk.
+      </p>
+      <div class="speech-bubble">
+        Sluit af met je naam, de datum van vandaag en eventueel een zin die je over een jaar wil lezen als herinnering aan dit moment.
+      </div>
+      <p style="font-size:14px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.75rem;">Voorbeelden van een afsluiting</p>
+      <div class="questions-grid">
+        <div class="q-card"><span class="q-arrow">→</span>"Succes, ik geloof in je. — [jouw naam]"</div>
+        <div class="q-card"><span class="q-arrow">→</span>"Ik hoop dat je terugkijkend trots bent op wat je gedaan hebt."</div>
+        <div class="q-card"><span class="q-arrow">→</span>"Vergeet niet: je hebt dit zelf gekozen."</div>
+        <div class="q-card"><span class="q-arrow">→</span>Bedenk je eigen afsluiting — iets dat bij jou past.</div>
+      </div>
+      <div class="step-nav">
+        <button class="btn-ghost" onclick="showSection('stap4', document.querySelectorAll('.nav-links a')[4])">← Stap 4</button>
+        <div class="progress-dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div>
+        </div>
+        <button class="btn-primary" onclick="showSection('overzicht', document.querySelectorAll('.nav-links a')[6])">Naar het overzicht →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ OVERZICHT ══ -->
+  <section id="overzicht">
+    <div class="overview-inner">
+      <div class="overview-header">
+        <p class="eyebrow">Eindoverzicht</p>
+        <h2>Vijf stappen — in één oogopslag</h2>
+        <span class="hand">Laat dit op het digibord staan terwijl leerlingen schrijven</span>
+      </div>
+
+      <div class="overview-grid">
+        <div class="ov-card c1" onclick="showSection('stap1', document.querySelectorAll('.nav-links a')[1])">
+          <div class="ov-num">1</div>
+          <h3>Terugblik jaar 1</h3>
+          <p>Wat ging goed? Wat was lastig?</p>
+        </div>
+        <div class="ov-card c2" onclick="showSection('stap2', document.querySelectorAll('.nav-links a')[2])">
+          <div class="ov-num">2</div>
+          <h3>Doelen stellen</h3>
+          <p>Vakken én persoonlijke groei</p>
+        </div>
+        <div class="ov-card c3" onclick="showSection('stap3', document.querySelectorAll('.nav-links a')[3])">
+          <div class="ov-num">3</div>
+          <h3>Plan van aanpak</h3>
+          <p>Hoe ga je het bereiken?</p>
+        </div>
+        <div class="ov-card c4" onclick="showSection('stap4', document.querySelectorAll('.nav-links a')[4])">
+          <div class="ov-num">4</div>
+          <h3>Jouw commitment</h3>
+          <p>Een belofte aan jezelf</p>
+        </div>
+        <div class="ov-card c5" onclick="showSection('stap5', document.querySelectorAll('.nav-links a')[5])">
+          <div class="ov-num">5</div>
+          <h3>Afsluiting</h3>
+          <p>Naam, datum & groet</p>
+        </div>
+      </div>
+
+      <div class="ov-bottom">
+        <div class="ov-block">
+          <h3><span class="dot-h" style="background:#F5A623;"></span>Terugblik — vragen</h3>
+          <ul class="ov-list">
+            <li>Welk vak verraste jou positief?</li>
+            <li>Waar heb je je echt voor ingezet?</li>
+            <li>Wat had je anders willen aanpakken?</li>
+            <li>Wat heb je geleerd over jezelf?</li>
+            <li>Wanneer was je trots op jezelf?</li>
+          </ul>
+        </div>
+        <div class="ov-block">
+          <h3><span class="dot-h" style="background:#2E6CB8;"></span>Vooruitblik — vragen</h3>
+          <ul class="ov-list">
+            <li>Welk cijfer wil je halen voor je moeilijkste vak?</li>
+            <li>Hoe wil jij groeien als persoon?</li>
+            <li>Wat ga je anders doen dan vorig jaar?</li>
+            <li>Wie helpt jou als het moeilijk wordt?</li>
+            <li>Wat wil je eind jaar zeggen over jezelf?</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="coach-banner">
+        <div class="coach-icon">📬</div>
+        <div>
+          <h3>Wat doen we met deze brief?</h3>
+          <p>Je brief wordt bewaard — in een envelop met jouw naam erop. Een paar keer dit jaar pakken we hem er samen bij. Niet om te beoordelen, maar om te kijken: hoe gaat het eigenlijk? Sta je nog achter wat je hebt geschreven? En wat heb je al waargemaakt?</p>
+        </div>
+      </div>
+
+      <div class="meta-row">
+        <span class="meta-pill">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          30–40 minuten
+        </span>
+        <span class="meta-pill">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Pen en papier
+        </span>
+        <span class="meta-pill">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          Alle tweedeklassen
+        </span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function showSection(id, navEl) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
